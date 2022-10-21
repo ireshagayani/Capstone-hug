@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "UmURd2p8Gb9xATROOoklXriNSgt+JAeWmw6N4eVZZM/S7aV7k5nyl6uJnunuV2VNtWbgJdjjT23bzgG/UJ3tPQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\me\\Desktop\\Conestoga\\Semester 4\\Capstone\\Project\\Source\\API\\hug\\DAL\\DAL.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\me\\.nuget\\packages\\dapper\\2.0.123\\dapper.2.0.123.nupkg.sha512"
+  ],
+  "logs": []
+}

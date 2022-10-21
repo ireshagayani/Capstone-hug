@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    android:label="@string/title_donate"
+    app:startDestination="@id/navigation_login">
+
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.example.hug.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/navigation_donate"
+        android:name="com.example.hug.ui.donate.DonateFragment"
+        android:label="@string/title_donate"
+        tools:layout="@layout/fragment_donate" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.example.hug.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.example.hug.ui.login.LoginFragment"
+        android:label="@string/title_login"
+        tools:layout="@layout/fragment_login" />
+    <fragment
+        android:id="@+id/navigation_signup"
+        android:name="com.example.hug.ui.signup.SignUpFragment"
+        android:label="@string/title_signup"
+        tools:layout="@layout/fragment_sign_up" />
+</navigation>
