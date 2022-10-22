@@ -11,4 +11,8 @@
 
     <string name="login_title_textview">Welcome Back,</string>
     <string name="login_sign_up_title_textview">Sign up</string>
+
+    <!-- Sign up -->
+    <string name="signup_title_textview">Create Account</string>
+    <string name="signup_login_title_textview">Log in</string>
 </resources>
