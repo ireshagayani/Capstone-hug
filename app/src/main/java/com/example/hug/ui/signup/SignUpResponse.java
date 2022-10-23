@@ -1,22 +1,19 @@
 package com.example.hug.ui.signup;
 
-import androidx.lifecycle.ViewModel;
+public class SignUpResponse {
 
-public class SignUpViewModel extends ViewModel {
-    // TODO: Implement the ViewModel
-
-    private String username;
+    private String userName;
     private String password;
     private String firstName;
     private String lastName;
-    private String locationId;
+    private Integer userId;
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -43,11 +40,11 @@ public class SignUpViewModel extends ViewModel {
         this.lastName = lastName;
     }
 
-    public String getLocationId() {
-        return locationId;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setLocationId(String locationId) {
-        this.locationId = locationId;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

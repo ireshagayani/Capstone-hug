@@ -95,7 +95,7 @@
                     app:hintTextColor="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/login_password_textInputEditText"
+                        android:id="@+id/signup_password_textInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword" />
@@ -116,7 +116,7 @@
                     app:hintTextColor="@color/primary">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/login_confirm_password_textInputEditText"
+                        android:id="@+id/signup_confirm_password_textInputEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textPassword" />
