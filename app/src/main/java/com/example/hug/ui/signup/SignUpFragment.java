@@ -23,10 +23,13 @@ import com.example.hug.ui.APIClient;
 import com.example.hug.ui.login.LoginResponse;
 import com.example.hug.ui.login.LoginViewModel;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import java.util.regex.Pattern;
 
 public class SignUpFragment extends Fragment {
 
@@ -36,6 +39,12 @@ public class SignUpFragment extends Fragment {
     private EditText signUpUsername;
     private EditText signUpPassword;
     private EditText signUpConPassword;
+    private static final Pattern PASSWORD_PATTERN =
+            Pattern.compile("^" +
+                    "(?=.*[@#$%^&+=])" +     // at least 1 special character
+                    "(?=\\S+$)" +            // no white spaces
+                    ".{4,}" +                // at least 4 characters
+                    "$");
 
     public static SignUpFragment newInstance() {
         return new SignUpFragment();
@@ -45,8 +54,8 @@ public class SignUpFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
+        View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
         signUpUsername = view.findViewById(R.id.signup_username_textInputEditText);
         signUpPassword = view.findViewById(R.id.signup_password_textInputEditText);
@@ -68,13 +77,21 @@ public class SignUpFragment extends Fragment {
                 String password = signUpPassword.getText().toString();
                 String conPassword = signUpConPassword.getText().toString();
 
-                if(TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(conPassword) || !TextUtils.equals(password,conPassword)){
-                    Toast.makeText(getContext(), "Please provide required details!",
-                            Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(conPassword)){
+                    Snackbar snackbar = Snackbar.make(view, "Fields cannot be empty!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
 
                 }
+                else if(!TextUtils.equals(password,conPassword)){
+                    Snackbar snackbar = Snackbar.make(view, "Passwords do not match!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else if(!PASSWORD_PATTERN.matcher(password).matches()){
+                    Snackbar snackbar = Snackbar.make(view, "Password should be at least 4 characters long and have 1 special character!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
                 else{
-                    signUp();
+                    signUp(view);
                 }
             }
         };
@@ -97,7 +114,7 @@ public class SignUpFragment extends Fragment {
         };
     }
 
-    public void signUp() {
+    public void signUp(View view) {
 
         SignUpViewModel signUpViewModel = new SignUpViewModel();
 
@@ -115,10 +132,16 @@ public class SignUpFragment extends Fragment {
             @Override
             public void onResponse(Call<SignUpResponse> call, Response<SignUpResponse> response) {
                 if(response.isSuccessful()){
-                    Toast.makeText(getContext(), "SignUp Successful.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view, "Signed up Successfully!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    Navigation.findNavController(view).navigate(R.id.action_navigation_signup_to_navigation_login);
                 }
                 else{
-                    Toast.makeText(getContext(), "SignUp failed.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view, "Signed up Failed!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    signUpUsername.setText("");
+                    signUpPassword.setText("");
+                    signUpConPassword.setText("");
                 }
             }
 

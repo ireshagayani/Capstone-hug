@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.example.hug.R;
 import com.example.hug.ui.APIClient;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -26,8 +27,6 @@ import retrofit2.Response;
 
 public class LoginFragment extends Fragment {
 
-    private MaterialButton signUpBtn;
-    private MaterialButton loginBtn;
     private EditText loginUsername;
     private EditText loginPassword;
 
@@ -46,8 +45,8 @@ public class LoginFragment extends Fragment {
 
         loginUsername = view.findViewById(R.id.login_username_textInputEditText);
         loginPassword = view.findViewById(R.id.login_password_textInputEditText);
-        signUpBtn  = view.findViewById(R.id.login_sign_up_btn);
-        loginBtn = view.findViewById(R.id.login_login_btn);
+        MaterialButton signUpBtn = view.findViewById(R.id.login_sign_up_btn);
+        MaterialButton loginBtn = view.findViewById(R.id.login_login_btn);
 
         signUpBtn.setOnClickListener(signUpBtnClickListener());
         loginBtn.setOnClickListener(loginBtnClickListner());
@@ -70,14 +69,14 @@ public class LoginFragment extends Fragment {
 
                 }
                 else{
-                    login();
+                    login(view);
                 }
             }
         };
 
     }
 
-    public void login() {
+    public void login(View view) {
 
         LoginViewModel loginViewModel = new LoginViewModel();
         loginViewModel.setUsername(loginUsername.getText().toString());
@@ -88,11 +87,12 @@ public class LoginFragment extends Fragment {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
-
-                    Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view, "Logged In Successfully!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
                 else{
-                    Toast.makeText(getContext(), "Login failed.", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view, "Logged In Failed!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
 

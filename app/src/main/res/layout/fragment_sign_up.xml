@@ -144,7 +144,7 @@
                         android:id="@+id/signup_login_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/login_login_btn"
+                        android:layout_below="@+id/signup_signup_btn"
                         android:gravity="right"
                         android:text="@string/signup_login_title_textview"
                         android:textColor="@color/primary"
