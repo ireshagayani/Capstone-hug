@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottomsheet_design"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/bottomsheet_profile_location_header_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/profile_location_close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ic_baseline_close_24"
+            android:backgroundTint="@color/primary"
+            android:gravity="start"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bottomsheet_header_title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Location"
+            android:textColor="@color/primary"
+            android:textSize="@dimen/bottomsheet_header_title"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="30dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_location_name_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name *"
+            app:boxCornerRadiusBottomEnd="40dp"
+            app:boxCornerRadiusBottomStart="40dp"
+            app:boxCornerRadiusTopEnd="40dp"
+            app:boxCornerRadiusTopStart="40dp"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_location_name_textInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_account_type_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_location_name_textInputLayout"
+            android:layout_marginTop="5dp"
+            android:hint="Location Type *"
+            app:boxCornerRadiusBottomEnd="40dp"
+            app:boxCornerRadiusBottomStart="40dp"
+            app:boxCornerRadiusTopEnd="40dp"
+            app:boxCornerRadiusTopStart="40dp"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary">
+
+            <AutoCompleteTextView
+                android:id="@+id/profile_location_type_dropDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_history_address_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_account_type_textInputLayout"
+            android:layout_marginTop="5dp"
+            android:hint="Address *"
+            app:boxCornerRadiusBottomEnd="40dp"
+            app:boxCornerRadiusBottomStart="40dp"
+            app:boxCornerRadiusTopEnd="40dp"
+            app:boxCornerRadiusTopStart="40dp"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_location_address_textInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_history_city_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_history_address_textInputLayout"
+            android:layout_marginTop="5dp"
+            android:hint="City *"
+            app:boxCornerRadiusBottomEnd="40dp"
+            app:boxCornerRadiusBottomStart="40dp"
+            app:boxCornerRadiusTopEnd="40dp"
+            app:boxCornerRadiusTopStart="40dp"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_location_city_textInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_history_province_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_history_city_textInputLayout"
+            android:layout_marginTop="5dp"
+            android:hint="Province *"
+            app:boxCornerRadiusBottomEnd="40dp"
+            app:boxCornerRadiusBottomStart="40dp"
+            app:boxCornerRadiusTopEnd="40dp"
+            app:boxCornerRadiusTopStart="40dp"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary">
+
+            <AutoCompleteTextView
+                android:id="@+id/profile_location_province_dropDown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/profile_history_postalcode_textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_history_province_textInputLayout"
+            android:layout_marginTop="5dp"
+            android:gravity="right"
+            android:hint="Postal Code *"
+            app:boxCornerRadiusBottomEnd="40dp"
+            app:boxCornerRadiusBottomStart="40dp"
+            app:boxCornerRadiusTopEnd="40dp"
+            app:boxCornerRadiusTopStart="40dp"
+            app:boxStrokeColor="@color/primary"
+            app:hintTextColor="@color/primary">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/profile_location_postalcode_textInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+<!--        <com.google.android.material.textfield.TextInputLayout-->
+<!--            android:id="@+id/profile_history_country_textInputLayout"-->
+<!--            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_below="@+id/profile_history_postalcode_textInputLayout"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:gravity="right"-->
+<!--            android:hint="Country"-->
+<!--            app:boxCornerRadiusBottomEnd="40dp"-->
+<!--            app:boxCornerRadiusBottomStart="40dp"-->
+<!--            app:boxCornerRadiusTopEnd="40dp"-->
+<!--            app:boxCornerRadiusTopStart="40dp"-->
+<!--            app:boxStrokeColor="@color/primary"-->
+<!--            app:hintTextColor="@color/primary">-->
+
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/profile_location_country_textInputEditText"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content" />-->
+<!--        </com.google.android.material.textfield.TextInputLayout>-->
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/profile_location_update_btn"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/profile_history_postalcode_textInputLayout"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/primary"
+            android:text="Update"
+            android:textSize="18dp"
+            app:cornerRadius="40dp" />
+
+
+
+
+    </RelativeLayout>
+
+</LinearLayout>

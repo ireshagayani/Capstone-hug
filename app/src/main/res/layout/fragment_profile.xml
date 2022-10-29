@@ -1,13 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.profile.ProfileFragment">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/top_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Profile" />
+        android:layout_weight="2"
+        android:background="@color/primary">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="45dp">
+
+            <ImageView
+                android:id="@+id/login_img_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/hug_logo_secondary" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/login_img_logo"
+                android:layout_marginTop="40dp"
+                android:paddingLeft="40dp"
+                android:text="@string/login_title_textview"
+                android:textColor="@color/white"
+                android:textSize="28dp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top_layout"
+        android:layout_weight="1">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/profile_TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:minHeight="60dp"
+            app:tabGravity="fill"
+            app:tabIndicatorColor="@color/primary"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/primary" />
+
+        <androidx.viewpager.widget.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/profile_tab_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_TabLayout"></androidx.viewpager.widget.ViewPager>
+
+    </RelativeLayout>
+
+</LinearLayout>
