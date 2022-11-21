@@ -15,4 +15,8 @@
     <!-- Sign up -->
     <string name="signup_title_textview">Create Account</string>
     <string name="signup_login_title_textview">Log in</string>
+    <string name="new_donation">New Donation</string>
+    <string name="images">Images</string>
+    <string name="welcome_back">Welcome Back !</string>
+    <string name="google_maps_key" />
 </resources>
