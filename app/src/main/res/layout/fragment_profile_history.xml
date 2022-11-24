@@ -5,9 +5,23 @@
     android:layout_height="match_parent"
     tools:context=".ui.profile.ProfileHistoryFragment">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/profile_history_list_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="History" />
+        android:layout_marginBottom="50dp"
+        tools:ignore="InvalidId"
+        >
+    </androidx.recyclerview.widget.RecyclerView>
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/profile_history_list_loading_bar"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:indeterminate="true"
+
+        android:visibility="gone"
+        />
 </FrameLayout>

@@ -119,10 +119,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                                 locationModel singleModel =new locationModel(
 
                                 );
-
-
-
-
                             }
 
                         } catch (JSONException e) {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottomsheet_design"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/bottomsheet_profile_account_header_wrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/profile_account_close_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/ic_baseline_close_24"
+            android:backgroundTint="@color/primary"
+            android:gravity="start"
+            android:padding="5dp"
+            android:textColor="@color/white"
+            android:textSize="@dimen/bottomsheet_header_title" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="Item"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:layout_marginLeft="20dp"
+            android:textSize="@dimen/bottomsheet_header_title" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp"
+        android:paddingTop="15dp"
+        android:paddingRight="30dp"
+        android:paddingBottom="30dp"
+        >
+
+        <TextView
+            android:id="@+id/bottomsheet_profile_history_item_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cheese Kottu"
+            android:layout_marginLeft="20dp"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/bottomsheet_profile_history_item_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cheese Kottu"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/bottomsheet_profile_history_item_name"
+            android:textSize="17dp" />
+
+
+        <TextView
+            android:id="@+id/bottomsheet_profile_history_item_createdOn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cheese Kottu"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/bottomsheet_profile_history_item_address"
+            android:textSize="17dp" />
+
+
+        <TextView
+            android:id="@+id/bottomsheet_profile_history_item_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cheese Kottu"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/bottomsheet_profile_history_item_createdOn"
+            android:textSize="17dp" />
+
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/profile_history_item_update_status_btn"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:layout_below="@+id/bottomsheet_profile_history_item_status"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/primary"
+            android:text="Not Available"
+            android:textSize="18dp"
+            app:cornerRadius="40dp" />
+
+    </RelativeLayout>
+
+</LinearLayout>
