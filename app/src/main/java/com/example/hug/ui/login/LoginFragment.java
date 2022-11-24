@@ -29,6 +29,8 @@ public class LoginFragment extends Fragment {
 
     private EditText loginUsername;
     private EditText loginPassword;
+    String userName = "";
+    String password = "";
 
     public static LoginFragment newInstance() {
         return new LoginFragment();
@@ -60,8 +62,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                String userName = loginUsername.getText().toString();
-                String password = loginPassword.getText().toString();
+                userName = loginUsername.getText().toString();
+                password = loginPassword.getText().toString();
 
                 if(TextUtils.isEmpty(userName) || TextUtils.isEmpty(password)){
                     Toast.makeText(getContext(), "Username/Password is required!",
@@ -79,8 +81,8 @@ public class LoginFragment extends Fragment {
     public void login(View view) {
 
         LoginViewModel loginViewModel = new LoginViewModel();
-        loginViewModel.setUsername(loginUsername.getText().toString());
-        loginViewModel.setPassword(loginPassword.getText().toString());
+        loginViewModel.setUsername(userName);
+        loginViewModel.setPassword(password);
 
         Call<LoginResponse> loginResponseCall = APIClient.getUserService().userLogin(loginViewModel);
         loginResponseCall.enqueue(new Callback<LoginResponse>() {

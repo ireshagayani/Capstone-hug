@@ -2,53 +2,82 @@ package com.example.hug.ui.donate;
 
 import androidx.lifecycle.ViewModel;
 
-import java.time.LocalDateTime;
-
 public class DonateViewModel extends ViewModel {
     // TODO: Implement the ViewModel
-    String title;
-    Integer quantity;
-    Integer location_id;
-    LocalDateTime dateTime;
-    String instructions;
+    private String name;
+    private Integer qty;
+    private LocationViewModel location;
+    private String pickupDateTime;
+    private String pickupInstruction;
+    private String itemStatus;
+    private Integer userId;
+    private Integer createdBy;
 
-    public String getTitle() {
-        return title;
+    public DonateViewModel() {
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public String getName() {
+        return name;
     }
 
-    public Integer getQuantity() {
-        return quantity;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
+    public Integer getQty() {
+        return qty;
     }
 
-    public Integer getLocation_id() {
-        return location_id;
+    public void setQty(Integer qty) {
+        this.qty = qty;
     }
 
-    public void setLocation_id(Integer location_id) {
-        this.location_id = location_id;
+    public String getPickupInstruction() {
+        return pickupInstruction;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public void setPickupInstruction(String pickupInstruction) {
+        this.pickupInstruction = pickupInstruction;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public String getItemStatus() {
+        return itemStatus;
     }
 
-    public String getInstructions() {
-        return instructions;
+    public void setItemStatus(String itemStatus) {
+        this.itemStatus = itemStatus;
     }
 
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
+    public LocationViewModel getLocation() {
+        return location;
     }
+
+    public void setLocation(LocationViewModel location) {
+        this.location = location;
+    }
+
+    public String getPickupDateTime() {
+        return pickupDateTime;
+    }
+
+    public void setPickupDateTime(String pickupDateTime) {
+        this.pickupDateTime = pickupDateTime;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public Integer getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Integer createdBy) {
+        this.createdBy = createdBy;
+    }
+
 }
