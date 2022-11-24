@@ -1,19 +1,10 @@
-package com.example.hug.ui.search;
-
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.os.Bundle;
+package com.example.hug;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
+import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,17 +12,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.hug.CustomDialogBox;
-import com.example.hug.R;
 import com.example.hug.databinding.FragmentMapsBinding;
-import com.example.hug.locationModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -42,26 +29,22 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchFragment extends Fragment implements OnMapReadyCallback {
+class MapsActivityNew extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    public FragmentMapsBinding binding;
+    private FragmentMapsBinding binding;
     public List<String> dummyData0,dummyData1,dummyData2,dummyData3;
     private Marker wterloo,ktchener,cnestoga,kingstreet;
     List<locationModel> allLocationList;
 
-    private SearchViewModel mViewModel;
-
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
-    }
-
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        binding = FragmentMapsBinding.inflate(inflater,container,false);
-
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         getData();
+
+        binding = FragmentMapsBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         dummyData0 = new ArrayList<String>();
         //Adding static data
         dummyData0.add("Address:Waterloo \nName : Charle's house\nAddress : 22 Cardill, Cresent\nCity : Waterloo\nProvince : Ontario\nPostal Code : N2L 3Y6\nPhone: 2265059167\nFood Type : Donuts\nQuantity : 5\nPickup Date: 21/12/2022");
@@ -71,37 +54,19 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         dummyData1.add("Address:kitchener \nName : Nyzil's Home\nAddress : 143 Talbot st.\nCity : Kitchener\nProvince : Ontario\nPostal Code : N2L 3R2\nPhone: 5197231212\nFood Type : Crispy Chicken\nQuantity : 10\nPickup Date: 21/12/2022");
         dummyData2 = new ArrayList<String>();
         //Adding static data
-        dummyData2.add("Address:Conestoga College  \nName :Inernational Food event \nCity : Kitchener\nProvince : Ontario\nPostal Code : N2L 3Y6\nPhone: 5165059167\nFood Type : burgers\nQuantity : 12\nPickup Date: 21/12/2022");
+        dummyData2.add("Address:Conestoga College  \nName :Inernational Food event \nCity : Kitchener\nProvince : Ontario\nPostal Code : N2L 3Y6\nPhone: 5165059167\nFood Type : burgers\nQuantity : 12\nPickup Date: 21/12/1212");
         dummyData3 = new ArrayList<String>();
         //Adding static data
-        dummyData3.add("Address: KingST W \nName : Iresha's house\nAddress : 22 Victoriast, Cresent\nCity : Waterloo\nProvince : Ontario\nPostal Code : N2L 3Y6\nPhone: 5195059167\nFood Type : Fried Rice\nQuantity : 5\nPickup Date: 21/12/2022");
+        dummyData3.add("Address: KingST W \nName : Iresha's house\nAddress : 22 Victoriast, Cresent\nCity : Waterloo\nProvince : Ontario\nPostal Code : N2L 3Y6\nPhone: 5195059167\nFood Type : Fried Rice\nQuantity : 5\nPickup Date: 21/12/1212");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        //SupportMapFragment mapFragment = (SupportMapFragment) getActivity().getSupportFragmentManager()
-         //       .findFragmentById(R.id.map);
-        //mapFragment.getMapAsync(this);
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
-        if (mapFragment == null) {
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            mapFragment = SupportMapFragment.newInstance();
-            fragmentTransaction.replace(R.id.map, mapFragment).commit();
-        }
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        return binding.getRoot();
-    }
-
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     private void getData() {
-        RequestQueue queue = Volley.newRequestQueue(getActivity().getApplicationContext());
+        RequestQueue queue = Volley.newRequestQueue(this);
         String api = "https://hug-conestoga.azurewebsites.net/api/Location";
         List<locationModel> allLocationList;
 
@@ -171,26 +136,26 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             public boolean onMarkerClick(@NonNull Marker marker) {
                 if(marker.equals(wterloo))
                 {
-                    CustomDialogBox dialogBox = new CustomDialogBox(getActivity(), dummyData0.get(0));
+                    CustomDialogBox dialogBox = new CustomDialogBox(MapsActivityNew.this, dummyData0.get(0));
                     dialogBox.show();
                 }
                 else if(marker.equals(ktchener))
                 {
-                    CustomDialogBox dialogBox = new CustomDialogBox(getActivity(), dummyData1.get(0));
+                    CustomDialogBox dialogBox = new CustomDialogBox(MapsActivityNew.this, dummyData1.get(0));
                     dialogBox.show();
                 }
                 else if(marker.equals(cnestoga))
                 {
-                    CustomDialogBox dialogBox = new CustomDialogBox(getActivity(), dummyData2.get(0));
+                    CustomDialogBox dialogBox = new CustomDialogBox(MapsActivityNew.this, dummyData2.get(0));
                     dialogBox.show();
                 }
                 else if(marker.equals(kingstreet))
                 {
-                    CustomDialogBox dialogBox = new CustomDialogBox(getActivity(), dummyData3.get(0));
+                    CustomDialogBox dialogBox = new CustomDialogBox(MapsActivityNew.this, dummyData3.get(0));
                     dialogBox.show();
                 }
                 else {
-                    CustomDialogBox dialogBox = new CustomDialogBox(getActivity(), marker.getTitle());
+                    CustomDialogBox dialogBox = new CustomDialogBox(MapsActivityNew.this, marker.getTitle());
                     dialogBox.show();
                 }
 
