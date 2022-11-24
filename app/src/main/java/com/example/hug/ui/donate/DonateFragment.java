@@ -3,52 +3,40 @@ package com.example.hug.ui.donate;
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.hug.R;
+import com.example.hug.ui.APIClient;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AddressComponent;
 import com.google.android.libraries.places.api.model.AddressComponents;
 import com.google.android.libraries.places.api.model.Place;
-import com.google.android.libraries.places.api.model.RectangularBounds;
-import com.google.android.libraries.places.api.model.TypeFilter;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
@@ -56,23 +44,27 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-
-import javax.xml.transform.Result;
+import java.util.Locale;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
 import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.AppSettingsDialogHolderActivity;
 import pub.devrel.easypermissions.EasyPermissions;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DonateFragment extends Fragment implements EasyPermissions.PermissionCallbacks{
 
@@ -94,6 +86,19 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
     RecyclerView recyclerView;
     ImageButton imageButton;
     MaterialButton donateAddButton;
+    String title = "";
+    Integer qty = 0;
+    String location = "";
+    String date = "";
+    String instructions = "";
+    String addressLine2 = "";
+    String city = "";
+    String province = "";
+    String country = "";
+    String postalCode = "";
+    StringBuilder addressLine1 = new StringBuilder();
+    Integer createdBy;
+    Integer userId;
 
     ArrayList<Uri> arrayList = new ArrayList<>();
 
@@ -107,50 +112,12 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
         //datepicker
 
         date_input = v.findViewById(R.id.date_textInputEditText);
-
-        MaterialDatePicker datePicker = MaterialDatePicker.Builder.datePicker()
-                .setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
-                .setTitleText("Pickup Date")
-                .build();
+        date_input.setInputType(InputType.TYPE_NULL);
 
         date_input.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                datePicker.show(getActivity().getSupportFragmentManager(), "DATE_PICKER");
-            }
-        });
-
-        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                date_input.setText(datePicker.getHeaderText());
-            }
-        });
-
-        //timepicker
-
-        time_input = v.findViewById(R.id.time_textInputEditText);
-
-        Calendar calendar = Calendar.getInstance();
-        MaterialTimePicker timePicker = new MaterialTimePicker.Builder()
-                .setTimeFormat(TimeFormat.CLOCK_12H)
-                .setHour(calendar.get(Calendar.HOUR_OF_DAY))
-                .setMinute(calendar.get(Calendar.MINUTE))
-                .setTitleText("PickupTime")
-                .build();
-
-        time_input.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                timePicker.show(getActivity().getSupportFragmentManager(),"TIME_PICKER");
-                timePicker.addOnPositiveButtonClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        int Hour = timePicker.getHour();
-                        int Minute = timePicker.getMinute();
-                        time_input.setText(Hour+":"+Minute);
-                    }
-                });
+                showDateTimeDialog(date_input);
             }
         });
 
@@ -202,40 +169,104 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
         quantity_input = v.findViewById(R.id.quantity_textInputEditText);
         location_input = v.findViewById(R.id.location_textInputEditText);
         date_input = v.findViewById(R.id.date_textInputEditText);
-        time_input = v.findViewById(R.id.time_textInputEditText);
         instructions_input = v.findViewById(R.id.instructions_textInputEditText);
         
-        //donateAddButton.setOnClickListener(donateAddButtonClickListner());
+        donateAddButton.setOnClickListener(donateAddButtonClickListner());
 
         return v;
     }
 
-//    private View.OnClickListener donateAddButtonClickListner() {
-//        return new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                String title = title_input.getText().toString();
-//                String qty = quantity_input.getText().toString();
-//                String location = location_input.getText().toString();
-//                String date = date_input.getText().toString();
-//                String time = time_input.getText().toString();
-//                String instructions = instructions_input.getText().toString();
-//
-//                if(TextUtils.isEmpty(title) || TextUtils.isEmpty(qty) || TextUtils.isEmpty(location) || TextUtils.isEmpty(date)
-//                        || TextUtils.isEmpty(time)){
-//
-//                    Toast.makeText(getContext(), "Enter all the required fields!", Toast.LENGTH_SHORT).show();
-//                }
-//
-//                else{
-//                    donateCreate(view);
-//                }
-//            }
-//        };
-//    }
+    private void showDateTimeDialog(TextInputEditText date_input) {
 
-//    private void donateCreate(View view) {
-//    }
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                calendar.set(Calendar.YEAR,i);
+                calendar.set(Calendar.MONTH,i1);
+                calendar.set(Calendar.DAY_OF_MONTH,i2);
+
+                TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                        calendar.set(Calendar.HOUR_OF_DAY,i);
+                        calendar.set(Calendar.MINUTE,i1);
+
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("E,MMM dd yyyy HH:mm");
+                        date_input.setText(simpleDateFormat.format(calendar.getTime()));
+                    }
+                };
+
+                new TimePickerDialog(getContext(),timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+            }
+        };
+
+        new DatePickerDialog(getContext(),dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private View.OnClickListener donateAddButtonClickListner() {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                title = title_input.getText().toString();
+                qty = Integer.valueOf(quantity_input.getText().toString());
+                location = location_input.getText().toString();
+                date = date_input.getText().toString() ;
+                instructions = instructions_input.getText().toString();
+
+                if(TextUtils.isEmpty(title) || TextUtils.isEmpty(quantity_input.getText().toString()) || TextUtils.isEmpty(location) || TextUtils.isEmpty(date)){
+
+                    Toast.makeText(getContext(), "Enter all the required fields!", Toast.LENGTH_SHORT).show();
+                }
+
+                else{
+
+                    donateCreate(view);
+                }
+            }
+        };
+    }
+
+    private void donateCreate(View view) {
+
+        DonateViewModel donateViewModel = new DonateViewModel();
+        LocationViewModel locationViewModel;
+        donateViewModel.setName(title);
+        donateViewModel.setQty(qty);
+        donateViewModel.setPickupDateTime(date);
+        donateViewModel.setPickupInstruction(instructions);
+        donateViewModel.setItemStatus("Available");
+        locationViewModel = new LocationViewModel(7,7,addressLine1,addressLine2,city,province,country,postalCode);
+        donateViewModel.setLocation(locationViewModel);
+        donateViewModel.setCreatedBy(7);
+        donateViewModel.setUserId(7);
+
+        Call<DonateResponse> donateResponseCall = APIClient.getUserService().donateItem(donateViewModel);
+        donateResponseCall.enqueue(new Callback<DonateResponse>() {
+            @Override
+            public void onResponse(Call<DonateResponse> call, Response<DonateResponse> response) {
+                if(response.isSuccessful()){
+                    Snackbar snackbar = Snackbar.make(view, "Donation Item added Successfully!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                    title_input.setText("");
+                    quantity_input.setText("");
+                    location_input.setText("");
+                    date_input.setText("");
+                    instructions_input.setText("");
+                }
+                else{
+                    Snackbar snackbar = Snackbar.make(view, "Item creation Failed!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DonateResponse> call, Throwable t) {
+                Toast.makeText(getContext(), "Throwable "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -275,42 +306,43 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
 
     private void addressComponents(Place place) {
         AddressComponents components = place.getAddressComponents();
-        StringBuilder address = new StringBuilder();
 
         if(components != null){
             for(AddressComponent component : components.asList()){
                 String type = component.getTypes().get(0);
                 switch (type){
                     case "street_number": {
-                        address.insert(0,component.getName());
+                        addressLine1.insert(0,component.getName());
                         break;
                     }
-                    case "subpremise":
                     case "route":{
-                        address.append(" ");
-                        address.append(component.getName());
+                        addressLine1.append(" ");
+                        addressLine1.append(component.getName());
+                        break;
+                    }
+                    case "subpremise":{
+                        addressLine2 = component.getName();
                         break;
                     }
                     case "locality": {
-                        String city = component.getName();
+                        city = component.getName();
                         break;
                     }
                     case "administrative_area_level_1": {
-                        String province = component.getShortName();
+                        province = component.getShortName();
                         break;
                     }
                     case "country": {
-                        String country = component.getName();
+                        country = component.getName();
                         break;
                     }
                     case "postal_code":
-                        String postalCode = component.getName();
+                        postalCode = component.getName();
                         break;
 
                 }
             }
         }
-        Log.i(TAG,"address"+address);
     }
 
     private void imagePicker() {

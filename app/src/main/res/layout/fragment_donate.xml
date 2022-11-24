@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     tools:context=".ui.donate.DonateFragment">
@@ -15,21 +15,21 @@
         android:orientation="vertical"
         android:weightSum="12">
 
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+<!--        <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content">-->
 
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:title="New Donation"
-                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-                android:background="@color/primary"
-                app:titleTextColor="@color/white"
-                app:navigationIconTint="@color/white">
+<!--            <com.google.android.material.appbar.MaterialToolbar-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:title="New Donation"-->
+<!--                app:navigationIcon="@drawable/ic_baseline_arrow_back_24"-->
+<!--                android:background="@color/primary"-->
+<!--                app:titleTextColor="@color/white"-->
+<!--                app:navigationIconTint="@color/white">-->
 
-            </com.google.android.material.appbar.MaterialToolbar>
-        </com.google.android.material.appbar.AppBarLayout>
+<!--            </com.google.android.material.appbar.MaterialToolbar>-->
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -107,11 +107,11 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/date_textInputLayout"
-                android:layout_width="175dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_below="@id/location_textInputLayout"
-                android:hint="Pickup Date"
+                android:hint="Pickup DateTime"
                 android:layout_marginBottom="10dp"
                 app:boxStrokeColor="@color/primary"
                 app:hintTextColor="@color/primary">
@@ -124,26 +124,26 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/time_textInputLayout"
-                android:layout_width="175dp"
-                android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_toEndOf="@id/date_textInputLayout"
-                android:layout_below="@id/location_textInputLayout"
-                android:layout_marginLeft="20dp"
-                android:hint="Pickup Time"
-                android:layout_marginBottom="10dp"
-                app:boxStrokeColor="@color/primary"
-                app:hintTextColor="@color/primary">
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/time_textInputLayout"-->
+<!--                android:layout_width="175dp"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_toEndOf="@id/date_textInputLayout"-->
+<!--                android:layout_below="@id/location_textInputLayout"-->
+<!--                android:layout_marginLeft="20dp"-->
+<!--                android:hint="Pickup Time"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                app:boxStrokeColor="@color/primary"-->
+<!--                app:hintTextColor="@color/primary">-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/time_textInputEditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"/>
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:id="@+id/time_textInputEditText"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:focusable="false"/>-->
 
-            </com.google.android.material.textfield.TextInputLayout>
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/instructions_textInputLayout"
