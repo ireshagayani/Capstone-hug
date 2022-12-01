@@ -2,9 +2,11 @@ package com.example.hug.models;
 
 import androidx.lifecycle.ViewModel;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class LocationModel  extends ViewModel {
 
@@ -44,6 +46,9 @@ public class LocationModel  extends ViewModel {
     @SerializedName("modifiedBy")
     private Integer ModifiedBy;
 
+    @SerializedName("items")
+    private List<ItemModel> Items;
+
     public Integer getId() { return Id; }
     public void setId(Integer id) { Id = id; }
 
@@ -79,4 +84,32 @@ public class LocationModel  extends ViewModel {
 
     public Integer getModifiedBy() { return ModifiedBy; }
     public void setModifiedBy(Integer modifiedBy) { ModifiedBy = modifiedBy; }
+
+    public List<ItemModel> getItems() {
+        return Items;
+    }
+
+    public void setItems(List<ItemModel> items) {
+        Items = items;
+    }
+
+
+    public String getFullAddress() {
+        return FullAddress;
+    }
+
+    public void setFullAddress(String fullAddress) {
+        FullAddress = fullAddress;
+    }
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
+    public void setLatLng(LatLng latLng) {
+        this.latLng = latLng;
+    }
+
+    public String FullAddress;
+    public LatLng latLng;
 }

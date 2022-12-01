@@ -12,10 +12,10 @@
         android:id="@+id/navigation_donate"
         android:icon="@drawable/volunteer_activism_black_24dp"
         android:title="@string/title_donate" />
-    <item
-        android:id="@+id/navigation_login"
-        android:icon="@drawable/ic_baseline_login_24"
-        android:title="@string/title_login" />
+<!--    <item-->
+<!--        android:id="@+id/navigation_login"-->
+<!--        android:icon="@drawable/ic_baseline_login_24"-->
+<!--        android:title="@string/title_login" />-->
 
     <item
         android:id="@+id/navigation_profile"

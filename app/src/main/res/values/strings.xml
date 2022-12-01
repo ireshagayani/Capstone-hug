@@ -19,4 +19,7 @@
     <string name="images">Images</string>
     <string name="welcome_back">Welcome Back !</string>
     <string name="google_maps_key" />
+    <string name="title_activity_splash_screen">SplashScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>
