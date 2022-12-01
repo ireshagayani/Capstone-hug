@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hug.R;
@@ -98,5 +99,4 @@ public class ProfileHistoryFragment extends Fragment {
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         historyRecyclerView.setAdapter(new ProfileHistoryAdapter(getContext(),items));
     }
-
 }

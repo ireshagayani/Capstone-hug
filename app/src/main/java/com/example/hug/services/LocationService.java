@@ -3,6 +3,8 @@ package com.example.hug.services;
 import com.example.hug.models.LocationModel;
 import com.example.hug.ui.profile.ProfileAccountLocationViewModel;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -21,4 +23,7 @@ public interface LocationService {
 
     @GET("api/Location/{id}")
     Call<LocationModel> getLocationByUserId(@Path("id") Integer id);
+
+    @GET("api/Location")
+    Call<List<LocationModel>> getAllLocations();
 }
