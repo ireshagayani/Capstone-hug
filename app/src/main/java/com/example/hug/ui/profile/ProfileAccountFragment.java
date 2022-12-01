@@ -15,15 +15,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.hug.GlobalVariables;
 import com.example.hug.R;
 import com.example.hug.helper.Constants;
 import com.example.hug.models.LocationModel;
 import com.example.hug.ui.APIClient;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
-
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,7 +43,7 @@ public class ProfileAccountFragment extends Fragment {
     private ProfileAccountViewModel profileAccount;
     private TextInputEditText locationNameTextInputEditText, addressTextInputEditText, cityTextInputEditText, postalCodeTextInputEditText;
     private AutoCompleteTextView locationTypeAutoCompleteTextView, provinceAutoCompleteTextView;
-
+    private Integer user_id = GlobalVariables.user_id;
 
     //Bottomsheet location
     private TextInputEditText sheetLocationName, sheetLocationAddress, sheetLocationCity, sheetLocationPostalCode, sheetLocationPhone;
@@ -70,6 +70,7 @@ public class ProfileAccountFragment extends Fragment {
 
         addLocationBtn = view.findViewById(R.id.profile_location_add_btn);
 
+        //Toast.makeText(getContext(), "userId1:"+GlobalVariables.user_id, Toast.LENGTH_SHORT).show();
         reloadAccountView();
 
         return view;
@@ -221,12 +222,21 @@ public class ProfileAccountFragment extends Fragment {
     }
 
     private void reloadAccountView() {
-        currentLocation = loadLocationData(0);
+        //currentLocation = loadLocationData(user_id);
+
         profileAccount = new ProfileAccountViewModel();
-        profileAccount.setLocation(currentLocation);
+        ProfileAccountLocationViewModel profileAccountLocationViewModel = new ProfileAccountLocationViewModel();
+        //Toast.makeText(getContext(), "signed in as :"+user_id, Toast.LENGTH_SHORT).show();
+        if(user_id != null){
+            currentLocation = loadLocationData(user_id);
+            profileAccount.setLocation(currentLocation);
+            initializeAccountView(profileAccount);
+        }
+        else{
+            Toast.makeText(getContext(), "You have to Sign In or Create an account to view your profile!", Toast.LENGTH_SHORT).show();
+        }
 
 
-        initializeAccountView(profileAccount);
     }
 
 
@@ -246,6 +256,8 @@ public class ProfileAccountFragment extends Fragment {
         currentLocation = location;
         //Location
 
+        Toast.makeText(getContext(), "location: "+currentLocation, Toast.LENGTH_SHORT).show();
+
         if (location != null && location.getId() != null) {
 
             locationNameTextView = view.findViewById(R.id.profile_account_location_name_textView);
@@ -254,6 +266,9 @@ public class ProfileAccountFragment extends Fragment {
             cityTextView = view.findViewById(R.id.profile_account_location_city_textView);
             provinceTextView = view.findViewById(R.id.profile_account_location_province_textView);
             postalCodeTextView = view.findViewById(R.id.profile_account_location_postalcode_textView);
+
+            //Toast.makeText(getContext(), "province: "+location.getProvince(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), "postal: "+location.getPostalCode(), Toast.LENGTH_SHORT).show();
 
             locationNameTextView.setText(location.getName());
             locationTypeTextView.setText(location.getLocationType());
@@ -331,8 +346,10 @@ public class ProfileAccountFragment extends Fragment {
                     LocationModel aa = response.body();
 
                     initilizeLocationView(aa);
-                } else {
-
+                }
+                else {
+                    Snackbar snackbar = Snackbar.make(view, "Location details Failed!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             }
 

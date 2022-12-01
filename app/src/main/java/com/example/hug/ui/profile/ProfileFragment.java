@@ -13,13 +13,16 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.hug.GlobalVariables;
 import com.example.hug.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
@@ -52,6 +55,8 @@ public class ProfileFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+       //Toast.makeText(getContext(), "signed in as :"+GlobalVariables.user_id, Toast.LENGTH_SHORT).show();
+
         viewPager = view.findViewById(R.id.profile_tab_viewpager);
         tabLayout = view.findViewById(R.id.profile_TabLayout);
 
@@ -65,8 +70,7 @@ public class ProfileFragment extends Fragment {
         viewPagerAdapter.addFragment(profileHistoryFragment, "History");
         viewPager.setAdapter(viewPagerAdapter);
 
-
-
+        //Toast.makeText(getContext(), "userId:"+GlobalVariables.user_id, Toast.LENGTH_SHORT).show();
 //        sheetButton = view.findViewById(R.id.profile_open_sheet_btn);
 
 //        sheetButton.setOnClickListener(new View.OnClickListener() {
@@ -112,13 +116,12 @@ public class ProfileFragment extends Fragment {
         private List<Fragment> tabItems = new ArrayList<Fragment>();
         private List<String> tabTitle = new ArrayList<>();
 
-
-
         public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
             super(fm, behavior);
         }
 
         public void addFragment(Fragment fragment, String title){
+            //Toast.makeText(getContext(), "title"+title, Toast.LENGTH_SHORT).show();
             tabItems.add(fragment);
             tabTitle.add(title);
         }
