@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.hug.GlobalVariables;
 import com.example.hug.R;
 import com.example.hug.adapters.ProfileHistoryAdapter;
 import com.example.hug.models.ItemModel;
@@ -37,6 +38,7 @@ public class ProfileHistoryFragment extends Fragment {
     private View view;
     private CircularProgressIndicator progressIndicator;
     private RecyclerView historyList;
+    private Integer userId = GlobalVariables.user_id;
 
     public static ProfileHistoryFragment newInstance() {
         return new ProfileHistoryFragment();
@@ -64,7 +66,14 @@ public class ProfileHistoryFragment extends Fragment {
     public void onResume() {
 //        progressIndicator.setVisibility(View.VISIBLE);
         super.onResume();
-        loadItemsHistory(5);
+
+        if(userId != null){
+            loadItemsHistory(userId);
+        }
+
+        else{
+            Toast.makeText(getContext(), "You have to Sign In or Create an account to view your profile!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void loadItemsHistory(int locationId) {
