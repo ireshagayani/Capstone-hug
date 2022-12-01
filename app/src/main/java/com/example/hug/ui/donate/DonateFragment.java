@@ -9,13 +9,17 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,6 +36,7 @@ import android.widget.Toast;
 
 import com.example.hug.R;
 import com.example.hug.ui.APIClient;
+import com.example.hug.ui.login.LoginViewModel;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.AddressComponent;
@@ -57,6 +62,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Observer;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
@@ -66,7 +72,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DonateFragment extends Fragment implements EasyPermissions.PermissionCallbacks{
+public class DonateFragment<User> extends Fragment implements EasyPermissions.PermissionCallbacks{
 
     private String apiKey = "AIzaSyC9MTMF1rU79kxeii_wV_urfiMnfTR0Dx8";
     private int AUTOCOMPLETE_REQUEST_CODE = 1;
@@ -77,29 +83,13 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
         return new DonateFragment();
     }
 
-    TextInputEditText date_input;
-    TextInputEditText time_input;
-    TextInputEditText location_input;
-    TextInputEditText title_input;
-    TextInputEditText quantity_input;
-    TextInputEditText instructions_input;
+    TextInputEditText date_input,location_input,title_input,quantity_input,instructions_input;
     RecyclerView recyclerView;
     ImageButton imageButton;
     MaterialButton donateAddButton;
-    String title = "";
-    Integer qty = 0;
-    String location = "";
-    String date = "";
-    String instructions = "";
-    String addressLine2 = "";
-    String city = "";
-    String province = "";
-    String country = "";
-    String postalCode = "";
+    String title = "",location = "",instructions = "",addressLine2 = "",city = "",province = "",country = "",postalCode = "",date = "";
+    Integer qty = 0,createdBy,userId;
     StringBuilder addressLine1 = new StringBuilder();
-    Integer createdBy;
-    Integer userId;
-
     ArrayList<Uri> arrayList = new ArrayList<>();
 
     @SuppressLint("MissingInflatedId")
@@ -170,7 +160,7 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
         location_input = v.findViewById(R.id.location_textInputEditText);
         date_input = v.findViewById(R.id.date_textInputEditText);
         instructions_input = v.findViewById(R.id.instructions_textInputEditText);
-        
+
         donateAddButton.setOnClickListener(donateAddButtonClickListner());
 
         return v;
@@ -253,6 +243,7 @@ public class DonateFragment extends Fragment implements EasyPermissions.Permissi
                     location_input.setText("");
                     date_input.setText("");
                     instructions_input.setText("");
+
                 }
                 else{
                     Snackbar snackbar = Snackbar.make(view, "Item creation Failed!" , Snackbar.LENGTH_LONG);

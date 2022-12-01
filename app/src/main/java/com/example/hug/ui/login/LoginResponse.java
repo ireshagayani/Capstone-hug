@@ -2,7 +2,7 @@ package com.example.hug.ui.login;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LoginResponse {
+public class   LoginResponse {
 
     @SerializedName("data")
     private Integer user_id;

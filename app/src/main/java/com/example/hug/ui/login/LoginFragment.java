@@ -2,11 +2,15 @@ package com.example.hug.ui.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.SavedStateHandle;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
@@ -16,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.hug.GlobalVariables;
 import com.example.hug.R;
 import com.example.hug.ui.APIClient;
 import com.google.android.material.button.MaterialButton;
@@ -89,8 +94,15 @@ public class LoginFragment extends Fragment {
             @Override
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if(response.isSuccessful()){
+                    GlobalVariables.user_id = response.body().getUser_id();
                     Snackbar snackbar = Snackbar.make(view, "Logged In Successfully!" , Snackbar.LENGTH_LONG);
                     snackbar.show();
+                    if(GlobalVariables.donateNav == 1){
+                        Navigation.findNavController(view).navigate(R.id.navigation_donate);
+                    }
+                    else{
+                        Navigation.findNavController(view).navigate(R.id.navigation_search);
+                    }
                 }
                 else{
                     Snackbar snackbar = Snackbar.make(view, "Logged In Failed!" , Snackbar.LENGTH_LONG);

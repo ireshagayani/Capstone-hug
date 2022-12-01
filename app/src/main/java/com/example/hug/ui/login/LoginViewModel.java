@@ -1,8 +1,10 @@
 package com.example.hug.ui.login;
 
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 
-public class LoginViewModel extends ViewModel {
+public class LoginViewModel<T> extends ViewModel {
+    public LiveData<T> user;
     // TODO: Implement the ViewModel
 
     private String username;
