@@ -153,8 +153,12 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         if(allLocationList != null && allLocationList.size() > 0){
             int index = 0;
             for (LocationModel location: allLocationList) {
-                location.setFullAddress(location.getAddress() + " " + location.getCity() + " " + location.getPostalCode() + " " + location.getProvince() + " " + location.getCountry());
-                mMap.addMarker(new MarkerOptions().position(getLocationFromAddress(getContext(),location.getFullAddress())).title(String.valueOf(index)));
+                if(!location.getItems().isEmpty()){
+                    location.setFullAddress(location.getAddress() + " " + location.getCity() + " " + location.getPostalCode() + " " + location.getProvince() + " " + location.getCountry());
+                    mMap.addMarker(new MarkerOptions().position(getLocationFromAddress(getContext(),location.getFullAddress())).title(String.valueOf(index)));
+                }
+
+
                 index++;
             }
 
@@ -203,6 +207,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
 
         new Handler().post(new Runnable() {
             @Override
@@ -342,4 +347,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             }
         }
      }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
 }
