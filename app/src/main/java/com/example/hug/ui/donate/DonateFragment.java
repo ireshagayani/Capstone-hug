@@ -2,6 +2,7 @@ package com.example.hug.ui.donate;
 
 import static android.app.Activity.RESULT_OK;
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,6 +24,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
@@ -34,7 +36,9 @@ import android.widget.ImageButton;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.hug.GlobalVariables;
 import com.example.hug.R;
+import com.example.hug.models.LocationModel;
 import com.example.hug.ui.APIClient;
 import com.example.hug.ui.login.LoginViewModel;
 import com.google.android.gms.common.api.Status;
@@ -53,6 +57,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -228,8 +233,8 @@ public class DonateFragment<User> extends Fragment implements EasyPermissions.Pe
         donateViewModel.setItemStatus("Available");
         locationViewModel = new LocationViewModel(7,7,addressLine1,addressLine2,city,province,country,postalCode);
         donateViewModel.setLocation(locationViewModel);
-        donateViewModel.setCreatedBy(7);
-        donateViewModel.setUserId(7);
+        donateViewModel.setCreatedBy(GlobalVariables.user_id);
+        donateViewModel.setUserId(GlobalVariables.user_id);
 
         Call<DonateResponse> donateResponseCall = APIClient.getUserService().donateItem(donateViewModel);
         donateResponseCall.enqueue(new Callback<DonateResponse>() {
@@ -243,6 +248,13 @@ public class DonateFragment<User> extends Fragment implements EasyPermissions.Pe
                     location_input.setText("");
                     date_input.setText("");
                     instructions_input.setText("");
+
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getLocationData();
+                        }
+                    });
 
                 }
                 else{
@@ -370,5 +382,29 @@ public class DonateFragment<User> extends Fragment implements EasyPermissions.Pe
         else{
             Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getLocationData(){
+        Call<List<LocationModel>> request =  APIClient.getLocationService().getAllLocations();
+        request.enqueue(new Callback<List<LocationModel>>() {
+            @Override
+            public void onResponse(Call<List<LocationModel>> call, retrofit2.Response<List<LocationModel>> response) {
+                if (response.isSuccessful()) {
+                    List<LocationModel> locations = response.body();
+                    SharedPreferences sharedPreferences = getActivity().getSharedPreferences("Search_Locations", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(locations);
+                    editor.putString("locations", json);
+                    editor.apply();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LocationModel>> call, Throwable t) {
+
+            }
+        });
+
     }
 }

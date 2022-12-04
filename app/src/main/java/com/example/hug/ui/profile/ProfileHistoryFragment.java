@@ -71,7 +71,6 @@ public class ProfileHistoryFragment extends Fragment {
         if(userId != null){
             loadItemsHistory(userId);
         }
-
         else{
             Toast.makeText(getContext(), "You have to Sign In or Create an account to view your profile!", Toast.LENGTH_SHORT).show();
         }

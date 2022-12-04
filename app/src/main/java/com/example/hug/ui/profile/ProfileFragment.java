@@ -65,7 +65,7 @@ public class ProfileFragment extends Fragment {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getFragmentManager(), 0);
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), 0);
         viewPagerAdapter.addFragment(profileAccountFragment, "Account");
         viewPagerAdapter.addFragment(profileHistoryFragment, "History");
         viewPager.setAdapter(viewPagerAdapter);

@@ -147,7 +147,6 @@
                     android:id="@+id/item1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="gone"
                     >
 
                     <LinearLayout
@@ -165,6 +164,13 @@
 
                         <TextView
                             android:id="@+id/item1_qty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item1_created"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
@@ -198,6 +204,13 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item2_created"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -223,6 +236,13 @@
 
                         <TextView
                             android:id="@+id/item3_qty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item3_created"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
@@ -256,6 +276,13 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item4_created"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -281,6 +308,13 @@
 
                         <TextView
                             android:id="@+id/item5_qty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item5_created"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
@@ -314,6 +348,14 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary" />
+
+
+                        <TextView
+                            android:id="@+id/item6_created"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -343,6 +385,13 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item7_created"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -368,6 +417,13 @@
 
                         <TextView
                             android:id="@+id/item8_qty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item8_created"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
@@ -402,6 +458,13 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"
                             android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item9_created"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
@@ -427,6 +490,13 @@
 
                         <TextView
                             android:id="@+id/item10_qty"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?attr/textAppearanceBody2"
+                            android:textColor="?android:attr/textColorSecondary" />
+
+                        <TextView
+                            android:id="@+id/item10_created"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textAppearance="?attr/textAppearanceBody2"

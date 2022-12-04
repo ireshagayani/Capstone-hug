@@ -301,13 +301,18 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         if(items.size() > 0){
             int index = 1;
             for (ItemModel i : items) {
+                String qty = String.valueOf("Qty : " + i.getQty());
+                String created = String.valueOf("Added On : " + i.getCreatedDateString());
+
                 switch (index){
                     case 1:
                         MaterialCardView card1 = locationDetailsView.findViewById(R.id.item1);
                         TextView title1 = locationDetailsView.findViewById(R.id.item1_name);
                         title1.setText(i.getName());
                         TextView qty1 = locationDetailsView.findViewById(R.id.item1_qty);
-                        qty1.setText(String.valueOf("Qty :" + i.getQty()));
+                        qty1.setText(qty);
+                        TextView created1 = locationDetailsView.findViewById(R.id.item1_created);
+                        created1.setText(created);
                         card1.setVisibility(View.VISIBLE);
                         break;
                     case 2:
@@ -315,7 +320,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         TextView title2 = locationDetailsView.findViewById(R.id.item2_name);
                         title2.setText(i.getName());
                         TextView qty2 = locationDetailsView.findViewById(R.id.item2_qty);
-                        qty2.setText(String.valueOf("Qty :" + i.getQty()));
+                        qty2.setText(qty);
+                        TextView created2 = locationDetailsView.findViewById(R.id.item2_created);
+                        created2.setText(created);
                         card2.setVisibility(View.VISIBLE);
                         break;
                     case 3:
@@ -323,7 +330,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         TextView title3 = locationDetailsView.findViewById(R.id.item3_name);
                         title3.setText(i.getName());
                         TextView qty3 = locationDetailsView.findViewById(R.id.item3_qty);
-                        qty3.setText(String.valueOf("Qty :" + i.getQty()));
+                        qty3.setText(qty);
+                        TextView created3 = locationDetailsView.findViewById(R.id.item3_created);
+                        created3.setText(created);
                         card3.setVisibility(View.VISIBLE);
                         break;
                     case 4:
@@ -331,7 +340,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         TextView title4 = locationDetailsView.findViewById(R.id.item4_name);
                         title4.setText(i.getName());
                         TextView qty4 = locationDetailsView.findViewById(R.id.item4_qty);
-                        qty4.setText(String.valueOf("Qty :" + i.getQty()));
+                        qty4.setText(qty);
+                        TextView created4 = locationDetailsView.findViewById(R.id.item4_created);
+                        created4.setText(created);
                         card4.setVisibility(View.VISIBLE);
                         break;
                     case 5:
@@ -339,7 +350,9 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
                         TextView title5 = locationDetailsView.findViewById(R.id.item5_name);
                         title5.setText(i.getName());
                         TextView qty5 = locationDetailsView.findViewById(R.id.item5_qty);
-                        qty5.setText(String.valueOf("Qty :" + i.getQty()));
+                        qty5.setText(qty);
+                        TextView created5 = locationDetailsView.findViewById(R.id.item5_created);
+                        created5.setText(created);
                         card5.setVisibility(View.VISIBLE);
                         break;
                 }
@@ -351,5 +364,11 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onResume() {
         super.onResume();
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                getLocations();
+            }
+        });
     }
 }
