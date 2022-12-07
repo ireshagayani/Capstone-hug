@@ -163,7 +163,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             }
 
             LatLng latLng = getLocationFromAddress(getContext(),allLocationList.get(allLocationList.size() - 1).getFullAddress());
-            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12.0f));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(43.466667,-80.516670),12.0f));
 
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override

@@ -1,10 +1,13 @@
 package com.example.hug.adapters;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -42,6 +45,7 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +65,7 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
     private BottomSheetDialog bottomSheetDialog;
     String updatedName , updatedDate , updatedLocation , updatedInstructions , updatedDateString ;
     Integer updatedQty , locationId , userId;
-    Boolean itemStatus ;
+    Boolean itemStatus  = false;
 
     public ProfileHistoryAdapter(Context ctx, List<ItemModel> items){
         this.context = ctx;
@@ -101,11 +105,23 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
 
                 TextInputEditText pickupLocation = sheetview.findViewById(R.id.profile_history_item_location);
 
-                pickupLocation.setText(item.getLocationModel().getAddress()+" "+item.getLocationModel().getCity()+" "+item.getLocationModel().getProvince()+" "+item.getLocationModel().getPostalCode());
+                LocationModel location = item.getLocationModel();
+                if(location != null){
+                    pickupLocation.setText(location.getAddress()+" "+location.getCity()+" "+location.getProvince()+" "+location.getPostalCode());
+                }
+
 
                 if(!Places.isInitialized()){
                     Places.initialize( context, "AIzaSyC9MTMF1rU79kxeii_wV_urfiMnfTR0Dx8");
                 }
+
+                TextView closeBtn = sheetview.findViewById(R.id.profile_account_close_btn);
+                closeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        bottomSheetDialog.hide();
+                    }
+                });
 
                 //create a new Places client instance
                 PlacesClient placesClient = Places.createClient(context);
@@ -155,11 +171,12 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
 
                         else{
 
-                            donateUpdate(item.getId(),view,item);
+                            donateUpdate(item.getId(),view,item, position);
                         }
                     }
                 });
                 SwitchMaterial switchMaterial = sheetview.findViewById(R.id.profile_history_item_isAvaialble);
+                switchMaterial.setChecked(item.getItemStatus().equals("Available") ? true : false);
                 switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -175,7 +192,7 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
         
     }
 
-    private void donateUpdate(Integer id , View view,ItemModel itemModel) {
+    private void donateUpdate(Integer id , View view,ItemModel itemModel, int selectedPosition) {
         //ItemModel itemModel = new ItemModel();
         //LocationViewModel locationViewModel;
         itemModel.setName(updatedName);
@@ -204,6 +221,16 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
             @Override
             public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
                 if (response.isSuccessful()) {
+                    ItemModel item = response.body();
+                    items.set(selectedPosition, item);
+                    bottomSheetDialog.hide();
+                    notifyItemChanged(selectedPosition);
+                    new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                            getLocationData();
+                        }
+                    });
                     Snackbar snackbar = Snackbar.make(view, "Donation Item updated Successfully!" , Snackbar.LENGTH_LONG);
                     snackbar.show();
 
@@ -250,6 +277,31 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
 //            }
 //
 //        });
+    }
+
+    private void getLocationData(){
+        Call<List<LocationModel>> request =  APIClient.getLocationService().getAllLocations();
+        request.enqueue(new Callback<List<LocationModel>>() {
+            @Override
+            public void onResponse(Call<List<LocationModel>> call, retrofit2.Response<List<LocationModel>> response) {
+                if (response.isSuccessful()) {
+                    List<LocationModel> locations = response.body();
+                    SharedPreferences sharedPreferences = context.getSharedPreferences("Search_Locations", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(locations);
+                    editor.putString("locations", json);
+                    editor.apply();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LocationModel>> call, Throwable t) {
+                Toast.makeText(context, "Unable to load data. " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
     }
 
     private void showDateTimeDialog(TextInputEditText date_input) {

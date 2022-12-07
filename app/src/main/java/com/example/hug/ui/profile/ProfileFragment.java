@@ -73,7 +73,7 @@ public class ProfileFragment extends Fragment {
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), 0);
 //        viewPagerAdapter.addFragment(profileAccountFragment, "Account");
-        viewPagerAdapter.addFragment(profileHistoryFragment, "History");
+        viewPagerAdapter.addFragment(profileHistoryFragment, "Donations");
 
         if(GlobalVariables.user_id != null){
             viewPager.setAdapter(viewPagerAdapter);
