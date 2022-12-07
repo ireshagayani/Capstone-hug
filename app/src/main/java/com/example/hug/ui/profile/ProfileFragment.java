@@ -55,6 +55,8 @@ public class ProfileFragment extends Fragment {
         ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setElevation(0);
+
        //Toast.makeText(getContext(), "signed in as :"+GlobalVariables.user_id, Toast.LENGTH_SHORT).show();
 
         viewPager = view.findViewById(R.id.profile_tab_viewpager);
@@ -66,7 +68,7 @@ public class ProfileFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), 0);
-        viewPagerAdapter.addFragment(profileAccountFragment, "Account");
+//        viewPagerAdapter.addFragment(profileAccountFragment, "Account");
         viewPagerAdapter.addFragment(profileHistoryFragment, "History");
         viewPager.setAdapter(viewPagerAdapter);
 
