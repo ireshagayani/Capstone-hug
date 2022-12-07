@@ -30,8 +30,27 @@ public class ItemModel {
     @SerializedName("modifiedDateString")
     private String ModifiedDateString;
 
-//    @SerializedName("pickupDateTime")
-//    private Date PickupDateTime;
+    public String getPickupDateTimeString() {
+        return PickupDateTimeString;
+    }
+
+    public void setPickupDateTimeString(String pickupDateTimeString) {
+        PickupDateTimeString = pickupDateTimeString;
+    }
+
+    @SerializedName("pickupDateTimeString")
+    private String PickupDateTimeString;
+
+    @SerializedName("pickupDateTime")
+    private String PickupDateTime;
+
+    public String getPickupDateTime() {
+        return PickupDateTime;
+    }
+
+    public void setPickupDateTime(String pickupDateTime) {
+        PickupDateTime = pickupDateTime;
+    }
 
     @SerializedName("pickupInstruction")
     private String PickupInstruction;

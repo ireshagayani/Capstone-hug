@@ -73,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             });
                             alertDialogBuilder.show();
-
-
                         }
                         break;
                     }
@@ -85,7 +83,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case R.id.navigation_profile:
                     {
-                        navController.navigate(R.id.navigation_profile);
+                        if (GlobalVariables.user_id != null) {
+                            navController.navigate(R.id.navigation_profile);
+                        }else{
+                            GlobalVariables.profileNav = 1;
+                            navController.navigate(R.id.navigation_login);
+                        }
                         break;
                     }
                     case R.id.navigation_search:
