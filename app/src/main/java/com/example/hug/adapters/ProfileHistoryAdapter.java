@@ -5,20 +5,31 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.hug.GlobalVariables;
 import com.example.hug.R;
 import com.example.hug.models.ItemModel;
+import com.example.hug.models.LocationModel;
+import com.example.hug.ui.APIClient;
+import com.example.hug.ui.donate.DonateResponse;
+import com.example.hug.ui.donate.DonateViewModel;
+import com.example.hug.ui.donate.LocationViewModel;
 import com.example.hug.ui.profile.ProfileAccountLocationViewModel;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
@@ -28,19 +39,29 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAdapter.ViewHolder>{
     private List<ItemModel> items;
     Context context;
     List<Place.Field> fields;
     private BottomSheetDialog bottomSheetDialog;
+    String updatedName , updatedDate , updatedLocation , updatedInstructions , updatedDateString ;
+    Integer updatedQty , locationId , userId;
+    Boolean itemStatus ;
 
     public ProfileHistoryAdapter(Context ctx, List<ItemModel> items){
         this.context = ctx;
@@ -56,8 +77,6 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
 
         bottomSheetDialog = new BottomSheetDialog(view.getContext(), R.style.BottomSheetTheme);
 
-
-
         return new ViewHolder(view);
     }
 
@@ -68,7 +87,6 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
         viewHolder.itemName.setText(item.getName());
         viewHolder.itemCreatedDate.setText(item.getCreatedDateString());
         viewHolder.itemStatus.setText(item.getItemStatus());
-
 
         viewHolder.wrapper.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +100,9 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
                 qty.setText(String.valueOf(item.getQty()));
 
                 TextInputEditText pickupLocation = sheetview.findViewById(R.id.profile_history_item_location);
-                pickupLocation.setText(item.getName());
+
+                pickupLocation.setText(item.getLocationModel().getAddress()+" "+item.getLocationModel().getCity()+" "+item.getLocationModel().getProvince()+" "+item.getLocationModel().getPostalCode());
+
                 if(!Places.isInitialized()){
                     Places.initialize( context, "AIzaSyC9MTMF1rU79kxeii_wV_urfiMnfTR0Dx8");
                 }
@@ -111,12 +131,125 @@ public class ProfileHistoryAdapter extends RecyclerView.Adapter<ProfileHistoryAd
                     }
                 });
 
+                TextInputEditText pickupInstructions = sheetview.findViewById(R.id.profile_history_item_instructions);
+                pickupInstructions.setText(item.getPickupInstruction());
+
+                MaterialButton itemUpdateButton;
+                itemUpdateButton = sheetview.findViewById(R.id.donate_create_btn);
+
+                itemUpdateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updatedName = itemName.getText().toString();
+                        updatedQty = Integer.valueOf(qty.getText().toString());
+                        updatedLocation = pickupLocation.getText().toString();
+                        updatedDate = pickupdate.getText().toString() ;
+                        updatedInstructions = pickupInstructions.getText().toString();
+                        locationId = item.getLocationId();
+                        updatedDateString = item.getCreatedDateString();
+
+                        if(TextUtils.isEmpty(updatedName) || TextUtils.isEmpty(qty.getText().toString()) || TextUtils.isEmpty(updatedLocation) || TextUtils.isEmpty(updatedDate)){
+
+                            Toast.makeText(view.getContext(), "Enter all the required fields!", Toast.LENGTH_SHORT).show();
+                        }
+
+                        else{
+
+                            donateUpdate(item.getId(),view,item);
+                        }
+                    }
+                });
+                SwitchMaterial switchMaterial = sheetview.findViewById(R.id.profile_history_item_isAvaialble);
+                switchMaterial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        itemStatus = b;
+                    }
+                });
+
                 bottomSheetDialog.setContentView(sheetview);
                 bottomSheetDialog.show();
             }
         });
+
         
-        
+    }
+
+    private void donateUpdate(Integer id , View view,ItemModel itemModel) {
+        //ItemModel itemModel = new ItemModel();
+        //LocationViewModel locationViewModel;
+        itemModel.setName(updatedName);
+        itemModel.setQty(updatedQty);
+        itemModel.setPickupDateTime(updatedDate);
+        itemModel.setPickupInstruction(updatedInstructions);
+        itemModel.setId(id);
+        itemModel.setLocationId(locationId);
+        itemModel.setPickupDateTimeString(updatedDateString);
+        itemModel.setUserId(GlobalVariables.user_id);
+
+        if(itemStatus == true){
+            itemModel.setItemStatus("Available");
+        }
+        else{
+            itemModel.setItemStatus("Not Available");
+        }
+        //locationViewModel = new LocationViewModel(GlobalVariables.user_id,GlobalVariables.user_id,addressLine1,addressLine2,city,province,country,postalCode);
+        //donateViewModel.setLocation(locationViewModel);
+       // itemModel.setCreatedBy(GlobalVariables.user_id);
+        //itemModel.setUserId(GlobalVariables.user_id);
+
+        Call<ItemModel> donateUpdateResponseCall = APIClient.getItemService().updateItem(id,itemModel);
+
+        donateUpdateResponseCall.enqueue(new Callback<ItemModel>() {
+            @Override
+            public void onResponse(Call<ItemModel> call, Response<ItemModel> response) {
+                if (response.isSuccessful()) {
+                    Snackbar snackbar = Snackbar.make(view, "Donation Item updated Successfully!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+
+                } else {
+                    Snackbar snackbar = Snackbar.make(view, "Item update Failed!" , Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ItemModel> call, Throwable t) {
+                Toast.makeText(view.getContext(), "Throwable " + t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+//        donateUpdateResponseCall.enqueue(new Callback<DonateResponse>() {
+//            @Override
+//            public void onResponse(Call<DonateResponse> call, Response<DonateResponse> response) {
+//                if(response.isSuccessful()){
+//                    Snackbar snackbar = Snackbar.make(view, "Donation Item updated Successfully!" , Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+////                    title_input.setText("");
+////                    quantity_input.setText("");
+////                    location_input.setText("");
+////                    date_input.setText("");
+////                    instructions_input.setText("");
+//
+////                    new Handler().post(new Runnable() {
+////                        @Override
+////                        public void run() {
+////                            getLocationData();
+////                        }
+////                    });
+//
+//                }
+//                else{
+//                    Snackbar snackbar = Snackbar.make(view, "Item creation Failed!" , Snackbar.LENGTH_LONG);
+//                    snackbar.show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DonateResponse> call, Throwable t) {
+//                Toast.makeText(view.getContext(), "Throwable "+t.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+//            }
+//
+//        });
     }
 
     private void showDateTimeDialog(TextInputEditText date_input) {

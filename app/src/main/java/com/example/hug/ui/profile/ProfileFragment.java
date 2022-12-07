@@ -79,27 +79,27 @@ public class ProfileFragment extends Fragment {
             viewPager.setAdapter(viewPagerAdapter);
         }
 
-        else{
-            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
-            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(getContext());
-            alertDialogBuilder.setTitle("VIEW PROFILE !");
-            alertDialogBuilder.setMessage("You have to Sign In or Create an account to view Profile!");
-            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    GlobalVariables.profileNav = true;
-                    navController.navigate(R.id.navigation_login);
-
-                }
-            });
-            alertDialogBuilder.setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                }
-            });
-            alertDialogBuilder.show();
-        }
+//        else{
+//            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+//            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(getContext());
+//            alertDialogBuilder.setTitle("VIEW PROFILE !");
+//            alertDialogBuilder.setMessage("You have to Sign In or Create an account to view Profile!");
+//            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//                    GlobalVariables.profileNav = true;
+//                    navController.navigate(R.id.navigation_login);
+//
+//                }
+//            });
+//            alertDialogBuilder.setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                }
+//            });
+//            alertDialogBuilder.show();
+//        }
 
 
         //Toast.makeText(getContext(), "userId:"+GlobalVariables.user_id, Toast.LENGTH_SHORT).show();

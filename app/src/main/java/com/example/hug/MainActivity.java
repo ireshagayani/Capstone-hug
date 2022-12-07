@@ -86,8 +86,25 @@ public class MainActivity extends AppCompatActivity {
                         if (GlobalVariables.user_id != null) {
                             navController.navigate(R.id.navigation_profile);
                         }else{
-                            GlobalVariables.profileNav = 1;
-                            navController.navigate(R.id.navigation_login);
+                            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this);
+                            alertDialogBuilder.setTitle("VIEW PROFILE !");
+                            alertDialogBuilder.setMessage("You have to Sign In or Create an account to become a Donor!");
+                            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    GlobalVariables.profileNav = true;
+                                    navController.navigate(R.id.navigation_login);
+
+                                }
+                            });
+                            alertDialogBuilder.setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            alertDialogBuilder.show();
+
                         }
                         break;
                     }

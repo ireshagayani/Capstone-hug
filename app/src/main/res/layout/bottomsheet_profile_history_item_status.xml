@@ -221,9 +221,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:useMaterialThemeColors="false"
-            app:trackTint="@color/primary"
+            app:useMaterialThemeColors="true"
             android:layout_below="@+id/instructions_textInputLayout"
+            android:checked="true"
             android:text="Avaialble"/>
         <com.google.android.material.button.MaterialButton
             android:id="@+id/donate_create_btn"

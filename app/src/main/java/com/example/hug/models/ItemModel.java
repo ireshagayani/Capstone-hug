@@ -34,6 +34,28 @@ public class ItemModel {
         return PickupDateTimeString;
     }
 
+    @SerializedName("location")
+    private LocationModel locationModel;
+
+    @SerializedName("userId")
+    private Integer UserId;
+
+    public Integer getUserId() {
+        return UserId;
+    }
+
+    public void setUserId(Integer userId) {
+        UserId = userId;
+    }
+
+    public LocationModel getLocationModel() {
+        return locationModel;
+    }
+
+    public void setLocationModel(LocationModel locationModel) {
+        this.locationModel = locationModel;
+    }
+
     public void setPickupDateTimeString(String pickupDateTimeString) {
         PickupDateTimeString = pickupDateTimeString;
     }

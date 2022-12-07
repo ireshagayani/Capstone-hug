@@ -99,8 +99,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         binding = FragmentMapsBinding.inflate(inflater,container,false);
         bottomSheetDialog = new BottomSheetDialog(getContext(), R.style.BottomSheetTheme);
 
-
-
         //getData();
         dummyData0 = new ArrayList<String>();
         //Adding static data
@@ -132,7 +130,6 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         return binding.getRoot();
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -146,7 +143,10 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
         String json = sharedPreferences.getString("locations", null);
         Type type = new TypeToken<ArrayList<LocationModel>>() {}.getType();
         allLocationList = gson.fromJson(json, type);
-        updateMarkers();
+        if(allLocationList != null){
+            updateMarkers();
+        }
+
     }
 
     private void updateMarkers(){
@@ -163,7 +163,7 @@ public class SearchFragment extends Fragment implements OnMapReadyCallback {
             }
 
             LatLng latLng = getLocationFromAddress(getContext(),allLocationList.get(allLocationList.size() - 1).getFullAddress());
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12.0f));
+            //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,12.0f));
 
             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
