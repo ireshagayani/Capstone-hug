@@ -3,5 +3,6 @@ package com.example.hug;
 public class GlobalVariables {
 
     public static Integer user_id;
-    public static Integer donateNav = 0;
+    public static Boolean donateNav = false;
+    public static Boolean profileNav = false;
 }

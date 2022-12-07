@@ -10,6 +10,8 @@ public class SignUpViewModel extends ViewModel {
     private String firstName;
     private String lastName;
     private String locationId;
+    private String phone;
+
 
     public String getUsername() {
         return username;
@@ -50,4 +52,14 @@ public class SignUpViewModel extends ViewModel {
     public void setLocationId(String locationId) {
         this.locationId = locationId;
     }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+
 }

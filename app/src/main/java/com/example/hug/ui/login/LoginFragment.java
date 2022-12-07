@@ -97,8 +97,11 @@ public class LoginFragment extends Fragment {
                     GlobalVariables.user_id = response.body().getUser_id();
                     Snackbar snackbar = Snackbar.make(view, "Logged In Successfully!" , Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    if(GlobalVariables.donateNav == 1){
+                    if(GlobalVariables.donateNav == true){
                         Navigation.findNavController(view).navigate(R.id.navigation_donate);
+                    }
+                    else if(GlobalVariables.profileNav == true){
+                        Navigation.findNavController(view).navigate(R.id.navigation_profile);
                     }
                     else{
                         Navigation.findNavController(view).navigate(R.id.navigation_search);

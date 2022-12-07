@@ -36,9 +36,11 @@ public class SignUpFragment extends Fragment {
     private SignUpViewModel mViewModel;
     private MaterialButton loginBtn;
     private MaterialButton signUpBtn;
-    private EditText signUpUsername;
-    private EditText signUpPassword;
-    private EditText signUpConPassword;
+    private EditText signUpUsername,signUpPassword,signUpConPassword,signUpName,signUpPhone,signUpEmail;
+    private String userName,password,conPassword,name,phone,email;
+    private static final String email_regex = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+    Pattern email_pattern = Pattern.compile(email_regex,Pattern.CASE_INSENSITIVE);
+
     private static final Pattern PASSWORD_PATTERN =
             Pattern.compile("^" +
                     "(?=.*[@#$%^&+=])" +     // at least 1 special character
@@ -57,9 +59,12 @@ public class SignUpFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_sign_up, container, false);
 
-        signUpUsername = view.findViewById(R.id.signup_username_textInputEditText);
+        //signUpUsername = view.findViewById(R.id.signup_username_textInputEditText);
         signUpPassword = view.findViewById(R.id.signup_password_textInputEditText);
         signUpConPassword = view.findViewById(R.id.signup_confirm_password_textInputEditText);
+        signUpName = view.findViewById(R.id.signup_firstname_textInputEditText);
+        signUpPhone = view.findViewById(R.id.signup_phone_textInputEditText);
+        signUpEmail = view.findViewById(R.id.signup_email_textInputEditText);
         loginBtn = view.findViewById(R.id.signup_login_btn);
         signUpBtn = view.findViewById(R.id.signup_signup_btn);
 
@@ -73,25 +78,37 @@ public class SignUpFragment extends Fragment {
         return new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userName = signUpUsername.getText().toString();
-                String password = signUpPassword.getText().toString();
-                String conPassword = signUpConPassword.getText().toString();
+                //userName = signUpUsername.getText().toString();
+                password = signUpPassword.getText().toString();
+                conPassword = signUpConPassword.getText().toString();
+                name = signUpName.getText().toString();
+                phone = signUpPhone.getText().toString();
+                email = signUpEmail.getText().toString();
 
-                if(TextUtils.isEmpty(userName) || TextUtils.isEmpty(password) || TextUtils.isEmpty(conPassword)){
-                    Snackbar snackbar = Snackbar.make(view, "Fields cannot be empty!" , Snackbar.LENGTH_LONG);
+                if(TextUtils.isEmpty(password) || TextUtils.isEmpty(conPassword) ||
+                        TextUtils.isEmpty(name) || TextUtils.isEmpty(phone) || TextUtils.isEmpty(email)){
+                    Snackbar snackbar = Snackbar.make(view, "Required Fields cannot be empty!" , Snackbar.LENGTH_LONG);
                     snackbar.show();
 
                 }
-                else if(!TextUtils.equals(password,conPassword)){
-                    Snackbar snackbar = Snackbar.make(view, "Passwords do not match!" , Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-                else if(!PASSWORD_PATTERN.matcher(password).matches()){
-                    Snackbar snackbar = Snackbar.make(view, "Password should be at least 4 characters long and have 1 special character!" , Snackbar.LENGTH_LONG);
-                    snackbar.show();
-                }
-                else{
-                    signUp(view);
+                else {
+                    if(!TextUtils.equals(password,conPassword)){
+                        Snackbar snackbar = Snackbar.make(view, "Passwords do not match!" , Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    else if(!PASSWORD_PATTERN.matcher(password).matches()){
+
+                        Snackbar snackbar = Snackbar.make(view, "Password should be at least 4 characters long and have 1 special character!" , Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    else if(!email_pattern.matcher(email.trim()).matches()){
+                        signUpEmail.setError("Invalid Email Address!");
+                        Snackbar snackbar = Snackbar.make(view, "Invalid Email Address!"+email , Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                    else{
+                        signUp(view);
+                    }
                 }
             }
         };
@@ -118,14 +135,13 @@ public class SignUpFragment extends Fragment {
 
         SignUpViewModel signUpViewModel = new SignUpViewModel();
 
-        String userName = signUpUsername.getText().toString();
-        String password = signUpPassword.getText().toString();
-
-        signUpViewModel.setUsername(userName);
+        signUpViewModel.setUsername(email);
         signUpViewModel.setPassword(password);
-        signUpViewModel.setFirstName("");
+        signUpViewModel.setFirstName(name);
         signUpViewModel.setLastName("");
         signUpViewModel.setLocationId("0");
+        signUpViewModel.setPhone(phone);
+        //signUpViewModel.setEmail(email);
 
         Call<SignUpResponse> signUpResponseCall = APIClient.getUserService().userSignUp(signUpViewModel);
         signUpResponseCall.enqueue(new Callback<SignUpResponse>() {
@@ -139,9 +155,12 @@ public class SignUpFragment extends Fragment {
                 else{
                     Snackbar snackbar = Snackbar.make(view, "Signed up Failed!" , Snackbar.LENGTH_LONG);
                     snackbar.show();
-                    signUpUsername.setText("");
+                    //signUpUsername.setText("");
                     signUpPassword.setText("");
                     signUpConPassword.setText("");
+                    signUpName.setText("");
+                    signUpPhone.setText("");
+                    signUpEmail.setText("");
                 }
             }
 

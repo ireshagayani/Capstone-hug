@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                             alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    GlobalVariables.donateNav = 1;
+                                    GlobalVariables.donateNav = true;
                                     navController.navigate(R.id.navigation_login);
 
                                 }

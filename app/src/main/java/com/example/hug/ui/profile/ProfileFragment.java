@@ -5,11 +5,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -26,6 +29,7 @@ import com.example.hug.GlobalVariables;
 import com.example.hug.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -68,7 +72,33 @@ public class ProfileFragment extends Fragment {
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager(), 0);
         viewPagerAdapter.addFragment(profileAccountFragment, "Account");
         viewPagerAdapter.addFragment(profileHistoryFragment, "History");
-        viewPager.setAdapter(viewPagerAdapter);
+
+        if(GlobalVariables.user_id != null){
+            viewPager.setAdapter(viewPagerAdapter);
+        }
+
+        else{
+            NavController navController = Navigation.findNavController(getActivity(), R.id.nav_host_fragment_activity_main);
+            MaterialAlertDialogBuilder alertDialogBuilder = new MaterialAlertDialogBuilder(getContext());
+            alertDialogBuilder.setTitle("VIEW PROFILE !");
+            alertDialogBuilder.setMessage("You have to Sign In or Create an account to view Profile!");
+            alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    GlobalVariables.profileNav = true;
+                    navController.navigate(R.id.navigation_login);
+
+                }
+            });
+            alertDialogBuilder.setNegativeButton("DISMISS", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            alertDialogBuilder.show();
+        }
+
 
         //Toast.makeText(getContext(), "userId:"+GlobalVariables.user_id, Toast.LENGTH_SHORT).show();
 //        sheetButton = view.findViewById(R.id.profile_open_sheet_btn);
