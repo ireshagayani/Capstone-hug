@@ -171,13 +171,16 @@
                 android:text="@string/images"
                 android:textSize="15dp"
                 android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
-                android:layout_below="@id/instructions_textInputLayout">
+                android:layout_below="@id/instructions_textInputLayout"
+                android:visibility="gone"
+                >
 
             </TextView>
 
             <ImageButton
                 android:id="@+id/add_imageButton1"
                 android:layout_width="wrap_content"
+                android:visibility="gone"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:src="@drawable/ic_baseline_add_photo_alternate_24"
